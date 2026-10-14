@@ -1,0 +1,20 @@
+# ENVIA — configuration de préparation Render
+# À adapter au Dockerfile et aux variables réelles du projet avant déploiement.
+services:
+  - type: web
+    name: envia-backend
+    runtime: docker
+    plan: free
+    region: frankfurt
+    repo: https://github.com/molabou/envia-djibouti.git
+    branch: main
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    autoDeployTrigger: off
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ENVIRONMENT
+        value: production
