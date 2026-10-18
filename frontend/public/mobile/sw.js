@@ -1,0 +1,7 @@
+const CACHE='envia-shared-mobile-v1';
+self.addEventListener('install',event=>{event.waitUntil((async()=>{const cache=await caches.open(CACHE);await cache.add('/envia-logo.png');try{const response=await fetch('/mobile/',{cache:'no-store'});if(response.ok&&(response.headers.get('content-type')||'').includes('text/html'))await cache.put('/mobile/',response);}catch{}})());self.skipWaiting();});
+self.addEventListener('activate',event=>{event.waitUntil((async()=>{await Promise.all((await caches.keys()).filter(k=>k.startsWith('envia-shared-mobile-')&&k!==CACHE).map(k=>caches.delete(k)));await self.clients.claim();})());});
+self.addEventListener('fetch',event=>{const r=event.request,u=new URL(r.url);if(r.method!=='GET'||u.origin!==self.location.origin||u.pathname.startsWith('/api-server/'))return;
+if(r.mode==='navigate'&&u.pathname.startsWith('/mobile/')){event.respondWith(fetch(r).then(async response=>{if(response.ok&&!response.redirected&&(response.headers.get('content-type')||'').includes('text/html')){const cache=await caches.open(CACHE);await cache.put('/mobile/',response.clone());}return response;}).catch(async()=>await caches.match('/mobile/')??new Response('Ouvrez ENVIA Mobile une première fois en ligne.',{status:503})));return;}
+if(u.pathname.startsWith('/assets/')||u.pathname==='/envia-logo.png'){event.respondWith(caches.match(r).then(c=>c||fetch(r).then(async response=>{if(response.ok){const cache=await caches.open(CACHE);await cache.put(r,response.clone());}return response;})));}
+});
