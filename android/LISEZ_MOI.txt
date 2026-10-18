@@ -1,0 +1,13 @@
+ENVIA MOBILE V2 — PROJET ANDROID STUDIO CORRIGÉ
+
+Ouvrir ce dossier dans Android Studio > attendre la synchronisation Gradle > Build > Build APK(s).
+APK attendu : app/build/outputs/apk/debug/app-debug.apk.
+
+Connexion : https://envia-mobile.onrender.com/mobile/ (HTTPS).
+Le sélecteur de photos propose galerie et caméra, avec conservation de la photo pleine résolution dans MediaStore.
+Le GPS utilise les autorisations Android et WebView. Les liens externes ouvrent le navigateur.
+
+IMPORTANT : c'est un conteneur Android WebView, PAS une application React Native autonome.
+Les écrans viennent du frontend Render : nettoyer ses textes de démonstration nécessite modifier et redéployer le frontend.
+La base et les signalements réels doivent être testés avec des comptes réels.
+Aucun APK final n'a été compilé ni testé sur appareil ici (SDK Android absent).
